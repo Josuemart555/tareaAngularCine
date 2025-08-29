@@ -124,6 +124,11 @@
     },
 
     init: function (compactMenu) {
+      // Evitar cualquier inicialización si es header-only
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       if ($('.main-menu-content').length > 0) {
         this.container = $('.main-menu-content');
 
@@ -134,6 +139,11 @@
     },
 
     change: function (compactMenu) {
+      // Evitar cualquier cambio si es header-only
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       var currentBreakpoint = Unison.fetch.now(); // Current Breakpoint
 
       this.reset();
@@ -287,6 +297,12 @@
     },
 
     transit: function (callback1, callback2) {
+
+      // No transiciones de menú en header-only
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       var menuObj = this;
       $body.addClass('changing-menu');
 
@@ -323,6 +339,10 @@
     },
 
     open: function () {
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       this.transit(
         function () {
           $body.removeClass('menu-hide menu-collapsed').addClass('menu-open');
@@ -358,6 +378,11 @@
     },
 
     hide: function () {
+
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       this.transit(
         function () {
           $body.removeClass('menu-open menu-expanded').addClass('menu-hide');
@@ -385,6 +410,11 @@
     },
 
     expand: function () {
+
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       if (this.expanded === false) {
         if ($body.data('menu') == 'vertical-menu-modern') {
           $('.modern-nav-toggle')
@@ -428,6 +458,11 @@
     },
 
     collapse: function () {
+
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       if (this.collapsed === false) {
         if ($body.data('menu') == 'vertical-menu-modern') {
           $('.modern-nav-toggle')
@@ -466,6 +501,11 @@
     },
 
     toOverlayMenu: function (screen, menuType) {
+
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       var menu = $body.data('menu');
       if (menuType == 'vertical-menu-modern') {
         if (screen == 'lg' || screen == 'md' || screen == 'sm' || screen == 'xs') {
@@ -491,6 +531,15 @@
     },
 
     changeMenu: function (screen) {
+
+      // Respetar layout sin menú: no modificar nada si body tiene 'header-only'
+      if ($('body').hasClass('header-only')) {
+        if (feather) {
+          feather.replace({ width: 14, height: 14 });
+        }
+        return;
+      }
+
       // Replace menu html
       $('div[data-menu="menu-wrapper"]').html('');
       $('div[data-menu="menu-wrapper"]').html(menuWrapper_el);
@@ -563,6 +612,11 @@
     },
 
     toggle: function () {
+
+      if ($('body').hasClass('header-only')) {
+        return;
+      }
+
       var currentBreakpoint = Unison.fetch.now(); // Current Breakpoint
       var collapsed = this.collapsed;
       var expanded = this.expanded;
@@ -623,6 +677,11 @@
     },
 
     reset: function () {
+      if ($('body').hasClass('header-only')) {
+        $body.removeClass('menu-hide menu-open menu-collapsed menu-expanded');
+        return;
+      }
+
       this.expanded = false;
       this.collapsed = false;
       this.hidden = false;
@@ -765,6 +824,10 @@
       $('.navbar-header, .main-menu').on('mouseenter', modernMenuExpand).on('mouseleave', modernMenuCollapse);
 
       function modernMenuExpand() {
+        if ($('body').hasClass('header-only')) {
+          return;
+        }
+
         if ($body.data('menu') == 'vertical-menu-modern') {
           $('.main-menu, .navbar-header').addClass('expanded');
           if ($body.hasClass('menu-collapsed')) {
