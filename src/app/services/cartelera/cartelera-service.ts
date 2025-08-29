@@ -5,7 +5,7 @@ import {map, Observable} from 'rxjs';
 const API_URL = 'https://movie.azurewebsites.net/api/cartelera?title=&ubication=';
 
 export interface Pelicula {
-  id?: string | number;
+  id?: string;
   titulo?: string;
   descripcion?: string;
   poster?: string;

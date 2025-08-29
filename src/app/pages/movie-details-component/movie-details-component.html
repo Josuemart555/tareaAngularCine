@@ -1,0 +1,51 @@
+<!-- HTML -->
+<div class="content-header row">
+  <div class="content-header-left col-md-12 col-12 mb-2">
+    <div class="d-flex align-items-center">
+      <h2 class="content-header-title float-start mb-0">{{ titulo() }}</h2>
+    </div>
+    <p class="text-muted mt-50">Detalles de la película</p>
+  </div>
+</div>
+
+<div class="content-body">
+  <div class="card" *ngIf="!pelicula()">
+    <div class="card-body">
+      <p class="mb-1">No se encontraron datos de la película.</p>
+      <small class="text-muted">Accediste directamente al enlace sin pasar por la cartelera.</small>
+      <div class="mt-1">
+        <button class="btn btn-sm btn-outline-primary" (click)="volver()">Volver a la cartelera</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="pelicula() as p">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img class="img-fluid w-100 h-100" [src]="posterDe(p)" [alt]="p.titulo || 'Poster'">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h3 class="card-title mb-50">{{ p.titulo }}</h3>
+          <div class="d-flex align-items-center flex-wrap mb-1">
+            <span class="badge rounded-pill badge-light-primary me-50" *ngIf="p.genero">{{ p.genero }}</span>
+            <span class="badge rounded-pill badge-light-warning" *ngIf="p.calificacion">★ {{ p.calificacion }}</span>
+          </div>
+
+          <p class="card-text">
+            {{ p.descripcion || 'Sin descripción disponible.' }}
+          </p>
+
+          <ul class="list-unstyled mb-1">
+            <li *ngIf="p.fechaEstreno"><strong>Estreno:</strong> {{ p.fechaEstreno | date:'mediumDate' }}</li>
+            <li *ngIf="p.duracionMinutos"><strong>Duración:</strong> {{ p.duracionMinutos }} min</li>
+            <li *ngIf="p.director"><strong>Director:</strong> {{ p.director }}</li>
+            <!--<li *ngIf="p.reparto?.length"><strong>Reparto:</strong> {{ p.reparto.join(', ') }}</li>-->
+          </ul>
+
+          <button class="btn btn-outline-secondary btn-sm" (click)="volver()">Volver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
